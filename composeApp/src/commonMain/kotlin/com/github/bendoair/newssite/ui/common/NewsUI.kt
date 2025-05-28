@@ -1,8 +1,12 @@
 package com.github.bendoair.newssite.ui.common
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardElevation
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -14,35 +18,41 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
 @Composable
-fun NewsUI(news: News) {
+fun NewsUI(
+    news: News,
+    onClickCard : () -> Unit,
+
+) {
     Card(
         shape = RoundedCornerShape(8.dp),
-        elevation = 4.dp,
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
+            .clickable(onClick = onClickCard),
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
                 text = news.headline,
                 fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = "Source: ${news.source}",
                 fontSize = 14.sp,
-                color = MaterialTheme.colors.primary
+                color = MaterialTheme.colorScheme.onSurface
             )
             Text(
                 text = "Date: ${news.date.formattedFromIsoDate()}",
                 fontSize = 14.sp,
-                color = MaterialTheme.colors.secondary
+                color = MaterialTheme.colorScheme.onSurface
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = news.newsBody,
-                fontSize = 16.sp
+                fontSize = 16.sp,
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
     }

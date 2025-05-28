@@ -1,8 +1,8 @@
-package com.github.bendoair.newssite.domain
+package com.github.bendoair.newssite.domain.filter
 
 data class NewsSourceFilter(
-    val country: List<Countries> = listOf(Countries.France),
-    val topic: List<Topics> = listOf(Topics.Politics),
+    val country: List<Countries> = listOf(Countries.Worldwide),
+    val topic: List<Topics> = listOf(Topics.Politics, Topics.Economics, Topics.Science, Topics.Sports, Topics.Technology),
     )
 {
     companion object {

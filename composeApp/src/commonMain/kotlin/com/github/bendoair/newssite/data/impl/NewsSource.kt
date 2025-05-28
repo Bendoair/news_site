@@ -2,7 +2,9 @@ package com.github.bendoair.newssite.data.impl
 
 import com.github.bendoair.newssite.data.INewsSource
 import com.github.bendoair.newssite.domain.News
-import com.github.bendoair.newssite.domain.NewsSourceFilter
+import com.github.bendoair.newssite.domain.filter.FilterHandler
+import com.github.bendoair.newssite.domain.filter.IFilterHandler
+import com.github.bendoair.newssite.domain.filter.NewsSourceFilter
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.cio.CIO
@@ -13,8 +15,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.json.Json
 
-class NewsSource : INewsSource {
-    var currentFilter: NewsSourceFilter = NewsSourceFilter.EmptyFilter
+class NewsSource(
+    private val filterHandler: FilterHandler
+) : INewsSource {
+
 
     //I know...
     private val apiKey = "rSPuJIZhu7AM721vR6jrDFI0VSnwSA76wxwz3Ui1"
@@ -36,7 +40,10 @@ class NewsSource : INewsSource {
     var newsCache:List<News> = emptyList()
 
     suspend fun fetchTopNews():List<News>{
+        //Get filter from state flow
+        val currentFilter = filterHandler.filter.value
 
+        println("Current filter: $currentFilter")
         val response:NewsApiResponse = client.get(ApiEndpoints.get("TopNews")?:"https://www.google.com/404"){
             url {
                 parameters.append("api_token", apiKey)
@@ -55,7 +62,25 @@ class NewsSource : INewsSource {
     }
 
     override fun getCurrentNews(): Flow<List<News>> {
-        return flow { emit(fetchTopNews()) }
+        if(newsCache.isEmpty()){
+
+            return flow {
+                newsCache = fetchTopNews()
+                emit(newsCache)
+            }
+        }else{
+            return flow { emit( newsCache) }
+        }
+
+    }
+
+    override fun getNewNews(): Flow<List<News>> {
+        return flow {
+            val newNews = fetchTopNews()
+            newsCache = newNews + newsCache
+            newsCache = newsCache.distinct()
+            emit(newsCache)
+        }
     }
 
     private fun getLocalesFilterString(countries: List<NewsSourceFilter.Countries>):String{

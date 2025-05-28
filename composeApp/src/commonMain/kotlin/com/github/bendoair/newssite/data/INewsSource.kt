@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface INewsSource {
     fun  getCurrentNews() : Flow<List<News>>
-    
+    fun getNewNews() : Flow<List<News>>
 }

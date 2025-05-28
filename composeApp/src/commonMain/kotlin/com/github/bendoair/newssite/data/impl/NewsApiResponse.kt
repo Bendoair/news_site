@@ -42,6 +42,7 @@ fun Article.asNews():News{
         headline = this.title,
         date = this.published_at,
         newsBody = this.snippet,
-        source = this.source
+        source = this.source,
+        fullUrl = this.url,
     )
 }

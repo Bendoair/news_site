@@ -7,37 +7,34 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.FilterChip
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Done
-import androidx.compose.material.icons.filled.Home
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
+import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
-import com.github.bendoair.newssite.domain.NewsSourceFilter
+import com.github.bendoair.newssite.domain.filter.NewsSourceFilter
 import com.github.bendoair.newssite.ui.common.StringResources
-import androidx.compose.material3.FilterChipDefaults.IconSize
 
 class FilterTab:Tab {
 
-    @OptIn(ExperimentalMaterialApi::class, ExperimentalLayoutApi::class)
+    @OptIn(ExperimentalLayoutApi::class)
     @Composable
     override fun Content() {
-        val model = rememberScreenModel { FilterScreenModel() }
+        val model = koinScreenModel<FilterScreenModel>()
         val filterState by model.filter.collectAsState()
 
         Column(
@@ -46,7 +43,11 @@ class FilterTab:Tab {
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Text("Select Countries", style = MaterialTheme.typography.h4)
+            Text(
+                "Select Countries",
+                style = MaterialTheme.typography.headlineMedium,
+                color = MaterialTheme.colorScheme.onBackground
+            )
             FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.Top,
@@ -56,7 +57,7 @@ class FilterTab:Tab {
                     FilterChip(
                         selected = filterState.country.contains(country),
                         onClick = { model.toggleCountry(country = country) },
-                        content = { Text(country.name) },
+                        label = { Text(country.name) },
                         leadingIcon = if(filterState.country.contains(country)){
                             {
                                 Icon(
@@ -72,7 +73,9 @@ class FilterTab:Tab {
                 }
             }
 
-            Text("Select Topics", style = MaterialTheme.typography.h4)
+            Text("Select Topics",
+                style = MaterialTheme.typography.headlineMedium,
+                color = MaterialTheme.colorScheme.onBackground)
             FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.Top,
@@ -83,7 +86,7 @@ class FilterTab:Tab {
                     FilterChip(
                         selected = filterState.topic.contains(topic),
                         onClick = { model.toggleTopic(topic) },
-                        content = { Text(topic.name) },
+                        label = { Text(topic.name) },
                         leadingIcon = if(filterState.topic.contains(topic)){
                             {
                                 Icon(

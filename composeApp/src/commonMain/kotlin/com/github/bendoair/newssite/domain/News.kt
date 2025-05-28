@@ -5,4 +5,5 @@ data class News(
     val source:String,
     val date: String,
     val newsBody: String,
+    val fullUrl:String,
 )
