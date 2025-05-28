@@ -1,18 +1,77 @@
-This is a Kotlin Multiplatform project targeting Android, Web, Desktop.
+# 🇭🇺 Kotlin Multiplatform News Aggregator
 
-* `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - `commonMain` is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    `iosMain` would be the right folder for such calls.
+A prototype application for a Hungarian news aggregator, built using Kotlin Multiplatform (KMP) and Compose Multiplatform. Inspired by platforms like Ground News, this app aims to surface regionally relevant and balanced news content from various sources via RSS feeds.
 
+---
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html),
-[Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform/#compose-multiplatform),
-[Kotlin/Wasm](https://kotl.in/wasm/)…
+## 🎯 Purpose
 
-We would appreciate your feedback on Compose/Web and Kotlin/Wasm in the public Slack channel [#compose-web](https://slack-chats.kotlinlang.org/c/compose-web).
-If you face any issues, please report them on [GitHub](https://github.com/JetBrains/compose-multiplatform/issues).
+In today's information overload, finding unbiased and diverse viewpoints is difficult. While apps like Ground News offer great insight into media bias, they are often centered around Western and U.S.-specific content.
 
-You can open the web application by running the `:composeApp:wasmJsBrowserDevelopmentRun` Gradle task.
+This application is built to:
+
+- Aggregate Hungarian and regional news.
+- Present multiple sources to identify bias.
+- Lay the groundwork for AI-assisted news summarization and analysis.
+
+---
+
+## 🧩 Current Features
+
+- Cross-platform (Desktop & Mobile) news app using Kotlin Multiplatform.
+- Pulls data from RSS feeds.
+- Opens full news content in external browser.
+- Basic category filtering and navigation.
+
+---
+
+## 🛠️ Tech Stack
+
+| Technology      | Purpose                                      |
+|----------------|----------------------------------------------|
+| Kotlin MPP      | Shared business logic across all platforms   |
+| Compose MPP     | Unified declarative UI                       |
+| Ktor Client     | HTTP client to fetch RSS feeds               |
+| KoIn            | Dependency Injection                         |
+| Voyager         | Navigation library for multiplatform apps    |
+
+---
+
+## 🧱 Architecture
+
+A clean 3-layer architecture:
+
+- **Presentation Layer**: Compose UI, Voyager Navigation, State Management
+- **Domain Layer**: Use-cases, Interfaces, Models
+- **Data Layer**: Ktor API calls, Repositories, DTOs, RSS Processing
+
+---
+
+## 🧪 Compose Multiplatform Insights
+
+Compose MPP brings Jetpack Compose to:
+
+- Android (via Dalvik bytecode)
+- Desktop (JVM JARs)
+- Web (via WebAssembly)
+- iOS (Canvas-based rendering)
+
+⚠️ Web and iOS support are still alpha.
+
+---
+
+## 🔮 Future Plans
+
+- **AI Integration**: Summarization & bias detection (backend service)
+- **Personalized Feed**: Based on user preferences and login
+- **iOS & Web support**: Once platform APIs are more stable
+
+---
+
+## 📄 License
+
+MIT or TBD
+
+---
+
+Made with ❤️ using Kotlin Multiplatform and JetBrains tools.
